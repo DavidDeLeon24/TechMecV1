@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechMec", "TechMec\TechMec.csproj", "{364DCC30-6152-482A-803A-45D797C30AC3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{364DCC30-6152-482A-803A-45D797C30AC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{364DCC30-6152-482A-803A-45D797C30AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{364DCC30-6152-482A-803A-45D797C30AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{364DCC30-6152-482A-803A-45D797C30AC3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68D3E19B-BC0F-46DC-B1E1-3862A641E1FD}
+	EndGlobalSection
+EndGlobal
