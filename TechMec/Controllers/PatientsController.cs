@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TechMec.Data;
 using TechMec.Models;
+
+//Supervisor or nurse should have access to the list of patients, I think inside areas as well(?)
 namespace TechMec.Controllers
 {
     [Authorize] //need to be logged in to see this controller // this is a list of patient records
