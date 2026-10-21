@@ -32,7 +32,7 @@ namespace TechMec.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [AllowAnonymous] // ADDED: so error page works even if not logged in
+        [AllowAnonymous] // so error page works even if not logged in
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
