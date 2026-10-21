@@ -9,16 +9,19 @@ namespace TechMec.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;  //for role - aj
 
         public AccountController(
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole>roleManager) //added
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager; //added for role
         }
 
-        [HttpGet]
+        [HttpGet] //shows login page
         public IActionResult Login() => View();
 
         [HttpPost]
@@ -26,6 +29,7 @@ namespace TechMec.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
+            //checks db for a user with the enterd email
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
@@ -33,6 +37,7 @@ namespace TechMec.Controllers
                 return View(model);
             }
 
+            //checks password
             var result = await _signInManager.PasswordSignInAsync(
                 user, model.Password, model.RememberMe, lockoutOnFailure: true);
 

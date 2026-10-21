@@ -1,9 +1,11 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TechMec.Models;
 
 namespace TechMec.Controllers
 {
+    [Authorize]  //must be logged in to have access to dashboard/ home page
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
