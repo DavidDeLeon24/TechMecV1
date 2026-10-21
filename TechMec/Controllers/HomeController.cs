@@ -5,7 +5,7 @@ using TechMec.Models;
 
 namespace TechMec.Controllers
 {
-    [Authorize]  //must be logged in to have access to dashboard/ home page
+    [Authorize] // must be logged in
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,16 +15,24 @@ namespace TechMec.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index() => View();
+
+        // Routes users to their specific Area after login
+        public IActionResult Dashboard()
         {
-            return View();
+            if (User.IsInRole("SystemAdmin"))
+                return RedirectToAction("Index", "Dashboard", new { area = "SystemAdmin" });
+
+            if (User.IsInRole("UnitSupervisor"))
+                return RedirectToAction("Index", "Dashboard", new { area = "UnitSupervisor" });
+
+            if (User.IsInRole("ChargeNurse"))
+                return RedirectToAction("Index", "Dashboard", new { area = "ChargeNurse" });
+
+            return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        [AllowAnonymous] // ADDED: so error page works even if not logged in
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
