@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using TechMec.Data;
 using TechMec.Models;
 
+//should prob be inside chargeNurse/Handoovercontroller(?)
 namespace TechMec.Controllers
 {
     [Authorize] //must be logg in to have access to this
