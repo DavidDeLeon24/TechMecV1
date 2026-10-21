@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TechMec.Models;
 using TechMec.ViewModels;
@@ -22,14 +23,23 @@ namespace TechMec.Controllers
         public IActionResult Login() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken] // prevents CSRF
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            // FindByNameAsync for Employee ID
+            var user = await _userManager.FindByNameAsync(model.Email);
+
             if (user == null)
             {
-                ModelState.AddModelError("", "Invalid email or password");
+                ModelState.AddModelError("", "Invalid Employee ID or password");
+                return View(model);
+            }
+
+            if (!user.IsActive) // check deactivated accounts
+            {
+                ModelState.AddModelError("", "This account has been deactivated. Contact Admin.");
                 return View(model);
             }
 
@@ -37,17 +47,19 @@ namespace TechMec.Controllers
                 user, model.Password, model.RememberMe, lockoutOnFailure: true);
 
             if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Dashboard", "Home"); // Dashboard
 
             if (result.IsLockedOut)
                 ModelState.AddModelError("", "Account locked. Try again in 15 minutes.");
             else
-                ModelState.AddModelError("", "Invalid email or password");
+                ModelState.AddModelError("", "Invalid Employee ID or password");
 
             return View(model);
         }
 
         [HttpPost]
+        [Authorize] 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
