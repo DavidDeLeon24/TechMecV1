@@ -14,8 +14,8 @@ namespace TechMec.Models
         public string? Department { get; set; }
 
         [StringLength(50)]
-        [Display(Name = "License Number")]
-        public string? LicenseNumber { get; set; }
+        [Display(Name = "Employee ID")]
+        public string? EmployeeID { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
