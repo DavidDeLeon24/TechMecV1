@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "System Admin";
+}
+
+<h1>Welcome Back System Admin</h1>
+
+@if (Context.Session.GetString("Role") == "System Admin")
+{
+    <p>Welcome, Admin! You can manage system users below.</p>
+
+    <a asp-area="SystemAdmin"
+       asp-controller="User"
+       asp-action="Index"
+       class="btn btn-primary">
+        Manage Users
+    </a>
+}

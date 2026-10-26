@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace TechMec.Area.ChargeNurse.Controller
+
+namespace TechMec.Area.UnitSupervisor.Controllers
 {
-    public class DashboardController : Controller
+    public class DashboardController : Microsoft.AspNetCore.Mvc.Controller
     {
         public IActionResult Index()
         {

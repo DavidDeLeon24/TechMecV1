@@ -1,5 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Unit Supervisor";
 }
+
+<h1>Welcome Unit Supervisor</h1>
+
+<p>Select an option below:</p>
+
+<div class="row">
+
+    <!-- HANDOVER -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+
+                <h3>Handover</h3>
+
+                <p>
+                    View and manage patient handovers.
+                </p>
+
+                <a asp-area="UnitSupervisor"
+                   asp-controller="Handover"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    View Handovers
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- UNIT DETAILS -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+
+                <h3>Unit Details</h3>
+
+                <p>
+                    View patient and unit information.
+                </p>
+
+                <a asp-area="UnitSupervisor"
+                   asp-controller="Patient"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    View Unit Details
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</div>

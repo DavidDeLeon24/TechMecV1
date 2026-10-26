@@ -1,5 +1,80 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<TechMec.Models.Patient>
+
 @{
+    ViewData["Title"] = "Unit Details";
 }
+
+<h1>Unit Details</h1>
+
+<hr />
+
+<div>
+    <h4>Admitted: @Model.Count()</h4>
+</div>
+
+<br />
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        + Add New Patient
+    </a>
+</p>
+
+<h3>Patients In This Unit</h3>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Patient ID</th>
+            <th>Name</th>
+            <th>Room Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @item.PatientId
+                </td>
+
+                <td>
+                    @item.FirstName @item.LastName
+                </td>
+
+                <td>
+                    @item.RoomNumber
+                </td>
+
+                <td>
+                    <a asp-action="Details"
+                       asp-route-id="@item.PatientId">
+                        Details
+                    </a>
+
+                    |
+
+                    <a asp-action="Edit"
+                       asp-route-id="@item.PatientId">
+                        Edit
+                    </a>
+
+                    |
+
+                    <a asp-action="Delete"
+                       asp-route-id="@item.PatientId">
+                        Delete
+                    </a>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

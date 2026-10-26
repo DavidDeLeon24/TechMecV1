@@ -1,5 +1,111 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model TechMec.Models.Handover
+
 @{
+    ViewData["Title"] = "Create Handover";
 }
+
+<h1>Create Handover</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger">
+            </div>
+
+
+            <!-- Patient -->
+            <div class="form-group">
+                <label asp-for="PatientId">Patient</label>
+
+                <input asp-for="PatientId"
+                       class="form-control" />
+
+                <span asp-validation-for="PatientId"
+                      class="text-danger">
+                </span>
+            </div>
+
+
+            <!-- Shift -->
+            <div class="form-group">
+                <label asp-for="ShiftType">Shift</label>
+
+                <select asp-for="ShiftType"
+                        class="form-control">
+
+                    <option value="">Select Shift</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Evening">Evening</option>
+                    <option value="Night">Night</option>
+
+                </select>
+
+                <span asp-validation-for="ShiftType"
+                      class="text-danger">
+                </span>
+            </div>
+
+
+            <!-- From Nurse -->
+            <div class="form-group">
+                <label asp-for="FromUserId">From Nurse</label>
+
+                <input asp-for="FromUserId"
+                       class="form-control" />
+
+                <span asp-validation-for="FromUserId"
+                      class="text-danger">
+                </span>
+            </div>
+
+
+            <!-- To Nurse -->
+            <div class="form-group">
+                <label asp-for="ToUserId">To Nurse</label>
+
+                <input asp-for="ToUserId"
+                       class="form-control" />
+
+                <span asp-validation-for="ToUserId"
+                      class="text-danger">
+                </span>
+            </div>
+
+
+            <!-- Special Instructions -->
+            <div class="form-group">
+                <label asp-for="SpecialInstructions">
+                    Special Instructions
+                </label>
+
+                <textarea asp-for="SpecialInstructions"
+                          class="form-control"
+                          rows="4">
+                </textarea>
+
+                <span asp-validation-for="SpecialInstructions"
+                      class="text-danger">
+                </span>
+            </div>
+
+
+            <br />
+
+            <input type="submit"
+                   value="Create Handover"
+                   class="btn btn-primary" />
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+</div>
