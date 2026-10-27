@@ -1,5 +1,58 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<TechMec.Models.Handover>
+
 @{
+    ViewData["Title"] = "Handovers";
 }
+
+<h1>Handovers</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        + Create New Handover
+    </a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Shift</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.PatientId</td>
+                <td>@item.ShiftType</td>
+                <td>@item.FromUserId</td>
+                <td>@item.ToUserId</td>
+
+                <td>
+                    <a asp-action="Details"
+                       asp-route-id="@item.HandoverId">
+                        Details
+                    </a>
+
+                    |
+
+                    <a asp-action="Edit"
+                       asp-route-id="@item.HandoverId">
+                        Edit
+                    </a>
+
+                    |
+
+                    <a asp-action="Delete"
+                       asp-route-id="@item.HandoverId">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

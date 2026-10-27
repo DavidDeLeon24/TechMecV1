@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace TechMec.Area.SystenAdmin.Controller
+namespace TechMec.Area.ChargeNurse.Controllers
 {
-    public class UserController : Controller
+    public class TaskController : Microsoft.AspNetCore.Mvc.Controller
     {
         public IActionResult Index()
         {
