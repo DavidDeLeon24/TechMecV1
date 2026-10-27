@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace TechMec.Area.SystenAdmin.Controller
+namespace TechMec.Area.SystemAdmin
 {
     public class DashboardController : Controller
     {
