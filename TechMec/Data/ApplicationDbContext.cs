@@ -14,7 +14,6 @@ namespace TechMec.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Handover> Handovers { get; set; }
 
-        // Add this block to fix the relationship error:
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
