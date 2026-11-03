@@ -13,6 +13,8 @@ namespace TechMec.Data
 
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Handover> Handovers { get; set; }
+        public DbSet<TaskItem> TaskItems { get; set; }
+        public DbSet<Note> Notes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,6 +33,18 @@ namespace TechMec.Data
                 .WithMany(u => u.ReceivedHandovers)
                 .HasForeignKey(h => h.ToUserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<TaskItem>()
+                .HasOne(t => t.Handover)
+                .WithMany()
+                .HasForeignKey(t => t.HandoverId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Note>()
+                .HasOne(n => n.Patient)
+                .WithMany()
+                .HasForeignKey(n => n.PatientId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

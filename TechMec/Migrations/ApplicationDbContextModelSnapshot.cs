@@ -288,6 +288,35 @@ namespace TechMec.Migrations
                     b.ToTable("Handovers");
                 });
 
+            modelBuilder.Entity("TechMec.Models.Note", b =>
+                {
+                    b.Property<int>("NoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NoteId"));
+
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NoteId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Notes");
+                });
+
             modelBuilder.Entity("TechMec.Models.Patient", b =>
                 {
                     b.Property<int>("PatientId")
@@ -324,6 +353,42 @@ namespace TechMec.Migrations
                     b.HasKey("PatientId");
 
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("TechMec.Models.TaskItem", b =>
+                {
+                    b.Property<int>("TaskId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskId"));
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CompletedByUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("HandoverId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Priority")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TaskId");
+
+                    b.HasIndex("HandoverId");
+
+                    b.ToTable("TaskItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -402,6 +467,28 @@ namespace TechMec.Migrations
                     b.Navigation("Patient");
 
                     b.Navigation("ToUser");
+                });
+
+            modelBuilder.Entity("TechMec.Models.Note", b =>
+                {
+                    b.HasOne("TechMec.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("TechMec.Models.TaskItem", b =>
+                {
+                    b.HasOne("TechMec.Models.Handover", "Handover")
+                        .WithMany()
+                        .HasForeignKey("HandoverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Handover");
                 });
 
             modelBuilder.Entity("TechMec.Models.ApplicationUser", b =>
