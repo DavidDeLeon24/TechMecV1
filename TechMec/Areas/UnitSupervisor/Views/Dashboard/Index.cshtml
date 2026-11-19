@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Unit Supervisor Dashboard";
+}
+
+<h1 class="mb-4">Welcome, Unit Supervisor</h1>
+
+<p>Select an option below:</p>
+
+<div class="row">
+    <!-- HANDOVERS -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">Handovers</h4>
+                <p class="card-text">View and manage patient handovers.</p>
+                <a asp-area="UnitSupervisor" asp-controller="Handover" asp-action="Index" class="btn btn-primary">
+                    View Handovers
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- UNIT DETAILS -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">Unit Details</h4>
+                <p class="card-text">View patient and unit information.</p>
+                <a asp-area="UnitSupervisor" asp-controller="Patient" asp-action="Index" class="btn btn-primary">
+                    View Unit Details
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

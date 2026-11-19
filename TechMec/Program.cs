@@ -5,12 +5,14 @@ using TechMec.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ---------- Database ----------
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+// ---------- Identity ----------
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
@@ -32,21 +34,26 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
     options.LogoutPath = "/Account/Logout";
-    options.AccessDeniedPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     options.SlidingExpiration = true;
 });
+
+// Session (needed if any view uses Context.Session)
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// ---------- Seeding ----------
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    string[] roles = {"ChargeNurse", "UnitSupervisor", "Admin" };
+    string[] roles = { "ChargeNurse", "UnitSupervisor", "Admin" };
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
@@ -62,12 +69,13 @@ using (var scope = app.Services.CreateScope())
             Email = testEmail,
             EmailConfirmed = true
         };
-        var result = await userManager.CreateAsync(testUser, "Nurse123!");
-        if (result.Succeeded)
-            await userManager.AddToRoleAsync(testUser, "Nurse");
+        var createResult = await userManager.CreateAsync(testUser, "Nurse123!");
+        if (createResult.Succeeded)
+            await userManager.AddToRoleAsync(testUser, "ChargeNurse");
     }
 }
 
+// ---------- Pipeline ----------
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -76,11 +84,16 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
-app.UseAuthentication(); 
+app.UseSession();       
+app.UseAuthentication();
 app.UseAuthorization();
+
+// ---------- Routes ----------
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

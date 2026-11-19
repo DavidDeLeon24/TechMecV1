@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Charge Nurse Dashboard";
+}
+
+<h1 class="mb-4">Welcome, Charge Nurse</h1>
+
+<p>Select an option below:</p>
+
+<div class="row">
+    <!-- HANDOVER -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">Handovers</h4>
+                <p class="card-text">View and manage patient handovers.</p>
+                <a asp-area="ChargeNurse" asp-controller="Handover" asp-action="Index" class="btn btn-primary">
+                    View Handovers
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">Notes</h4>
+                <p class="card-text">View and add patient notes.</p>
+                <a asp-area="ChargeNurse" asp-controller="Notes" asp-action="Index" class="btn btn-primary">
+                    View Notes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TASKS -->
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">Tasks</h4>
+                <p class="card-text">Manage assigned patient tasks.</p>
+                <a asp-area="ChargeNurse" asp-controller="Task" asp-action="Index" class="btn btn-primary">
+                    View Tasks
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

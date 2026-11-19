@@ -1,0 +1,30 @@
+﻿@model TechMec.Models.Handover
+
+@{
+    ViewData["Title"] = "Handover Details";
+}
+
+<h1>Handover Details</h1>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Patient</dt>
+    <dd class="col-sm-9">@Model.Patient?.FirstName @Model.Patient?.LastName</dd>
+
+    <dt class="col-sm-3">Shift</dt>
+    <dd class="col-sm-9">@Model.ShiftType</dd>
+
+    <dt class="col-sm-3">From</dt>
+    <dd class="col-sm-9">@Model.FromUser?.FullName</dd>
+
+    <dt class="col-sm-3">To</dt>
+    <dd class="col-sm-9">@Model.ToUser?.FullName</dd>
+
+    <dt class="col-sm-3">Special Instructions</dt>
+    <dd class="col-sm-9">@Model.SpecialInstructions</dd>
+
+    <dt class="col-sm-3">Handover Time</dt>
+    <dd class="col-sm-9">@Model.HandoverTime.ToString("g")</dd>
+</dl>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Inbox</a>
