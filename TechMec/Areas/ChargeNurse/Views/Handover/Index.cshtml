@@ -1,5 +1,95 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<TechMec.Models.Handover>
 @{
+    ViewData["Title"] = "My Handovers";
 }
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3><i class="fa-solid fa-inbox text-primary me-2"></i>Incoming Handovers</h3>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Patient</th>
+                    <th>Shift</th>
+                    <th>From Nurse</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample Row 1 -->
+                <tr>
+                    <td>
+                        <strong>John Doe</strong><br />
+                        <small class="text-muted">Room 102</small>
+                    </td>
+                    <td><span class="badge bg-secondary">Morning</span></td>
+                    <td>Nurse Cidney</td>
+                    <td><span class="badge bg-danger">Pending Ack</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#ackModal">Review & Acknowledge</button>
+                    </td>
+                </tr>
+                <!-- Sample Row 2 -->
+                <tr>
+                    <td>
+                        <strong>Jane Smith</strong><br />
+                        <small class="text-muted">Room 105</small>
+                    </td>
+                    <td><span class="badge bg-secondary">Morning</span></td>
+                    <td>Nurse Idara</td>
+                    <td><span class="badge bg-success">Acknowledged</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-secondary" disabled>Completed</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Acknowledgment Modal (FR-115 & FR-117) -->
+<div class="modal fade" id="ackModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Handover Details - John Doe</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Patient Status:</strong> <span class="badge bg-warning text-dark">Observation</span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Diagnosis:</strong> Pneumonia
+                    </div>
+                </div>
+
+                <h6 class="fw-bold mt-4 border-bottom pb-2">Special Instructions (FR-117)</h6>
+                <div class="alert alert-info">
+                    Patient is NPO after midnight. Ensure IV antibiotics are administered at 8:00 AM. Watch for signs of shortness of breath.
+                </div>
+
+                <h6 class="fw-bold mt-4 border-bottom pb-2">Pending Tasks (FR-113)</h6>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Administer Amoxicillin 500mg
+                        <span class="badge bg-danger rounded-pill">8:00 AM</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Check Vitals
+                        <span class="badge bg-warning rounded-pill">Every 4 hours</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success"><i class="fa-solid fa-check me-1"></i> Acknowledge Handover</button>
+            </div>
+        </div>
+    </div>
+</div>
