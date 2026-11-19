@@ -1,0 +1,62 @@
+﻿@model TechMec.Models.Handover
+
+@{
+    ViewData["Title"] = "Handover Details";
+}
+
+<h1>Handover Details</h1>
+
+<hr />
+
+<dl class="row">
+
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.PatientId)
+    </dt>
+
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.PatientId)
+    </dd>
+
+
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ShiftType)
+    </dt>
+
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ShiftType)
+    </dd>
+
+
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.FromUserId)
+    </dt>
+
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.FromUserId)
+    </dd>
+
+
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ToUserId)
+    </dt>
+
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ToUserId)
+    </dd>
+
+
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.SpecialInstructions)
+    </dt>
+
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.SpecialInstructions)
+    </dd>
+
+</dl>
+
+<a asp-action="Index"
+   class="btn btn-secondary">
+    Back to Handovers
+</a>

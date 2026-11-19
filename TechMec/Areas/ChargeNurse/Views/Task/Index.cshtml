@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TechMec.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<h1>Patient Tasks</h1>
+
+<hr />
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Handover ID</th>
+            <th>Task</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.HandoverId</td>
+
+                <td>@item.Description</td>
+
+                <td>@item.Priority</td>
+
+                <td>
+                    @if (item.IsCompleted)
+                    {
+                        <span>Completed</span>
+                    }
+                    else
+                    {
+                        <span>Pending</span>
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@item.TaskId">
+                        Edit
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

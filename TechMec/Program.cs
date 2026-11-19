@@ -64,7 +64,7 @@ using (var scope = app.Services.CreateScope())
         };
         var result = await userManager.CreateAsync(testUser, "Nurse123!");
         if (result.Succeeded)
-            await userManager.AddToRoleAsync(testUser, "Nurse");
+            await userManager.AddToRoleAsync(testUser, "ChargeNurse");
     }
 }
 
@@ -81,6 +81,11 @@ app.UseRouting();
 
 app.UseAuthentication(); 
 app.UseAuthorization();
+
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

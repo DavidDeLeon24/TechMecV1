@@ -2,7 +2,8 @@
 
 namespace TechMec.Area.ChargeNurse.Controllers
 {
-    public class HandoverController : Microsoft.AspNetCore.Mvc.Controller
+    [Area("ChargeNurse")]
+    public class HandoverController : Controller
     {
         public IActionResult Index()
         {

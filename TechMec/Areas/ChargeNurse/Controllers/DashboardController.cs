@@ -2,7 +2,8 @@
 
 namespace TechMec.Area.ChargeNurse.Controllers
 {
-    public class DashboardController : Microsoft.AspNetCore.Mvc.Controller
+    [Area("ChargeNurse")]
+    public class DashboardController : Controller
     {
         public IActionResult Index()
         {

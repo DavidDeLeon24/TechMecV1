@@ -1,0 +1,47 @@
+﻿@model IEnumerable<TechMec.Models.Handover>
+
+@{
+    ViewData["Title"] = "Handovers";
+}
+
+<h1>Handovers</h1>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Shift</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.PatientId</td>
+
+                <td>@item.ShiftType</td>
+
+                <td>@item.FromUserId</td>
+
+                <td>@item.ToUserId</td>
+
+                <td>
+                    <a asp-action="Details"
+                       asp-route-id="@item.HandoverId">
+                        Details
+                    </a>
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
