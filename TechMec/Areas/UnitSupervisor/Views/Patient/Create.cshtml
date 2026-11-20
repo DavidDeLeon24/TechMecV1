@@ -1,109 +1,153 @@
 ﻿@model TechMec.Models.Patient
+@using TechMec.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Add Patient";
+    ViewData["Title"] = "Add New Patient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Add New Patient</h1>
+<div class="container mt-4">
 
-<hr />
+    <h2>Add New Patient</h2>
+    <p class="text-muted">
+        Enter the patient's information below.
+    </p>
 
-<div class="row">
-    <div class="col-md-6">
+    <hr />
 
-        <form asp-action="Create" method="post">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
 
-            <div asp-validation-summary="ModelOnly"
-                 class="text-danger">
-            </div>
+            <form action="/UnitSupervisor/Patient/Create"
+                  method="post">
 
-            <!-- First Name -->
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+                @Html.AntiForgeryToken()
 
-                <input asp-for="FirstName"
-                       class="form-control" />
+                <div asp-validation-summary="All"
+                     class="text-danger mb-3">
+                </div>
 
-                <span asp-validation-for="FirstName"
-                      class="text-danger"></span>
-            </div>
+                <h5 class="mb-3">Personal Information</h5>
 
+                <div class="row">
 
-            <!-- Last Name -->
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FirstName"
+                               class="form-label">
+                            First Name
+                        </label>
 
-                <input asp-for="LastName"
-                       class="form-control" />
+                        <input asp-for="FirstName"
+                               class="form-control" />
 
-                <span asp-validation-for="LastName"
-                      class="text-danger"></span>
-            </div>
+                        <span asp-validation-for="FirstName"
+                              class="text-danger"></span>
+                    </div>
 
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LastName"
+                               class="form-label">
+                            Last Name
+                        </label>
 
-            <!-- Date of Birth -->
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="LastName"
+                               class="form-control" />
 
-                <input asp-for="DateOfBirth"
-                       class="form-control" />
+                        <span asp-validation-for="LastName"
+                              class="text-danger"></span>
+                    </div>
 
-                <span asp-validation-for="DateOfBirth"
-                      class="text-danger"></span>
-            </div>
+                </div>
 
+                <div class="row">
 
-            <!-- Room Number -->
-            <div class="form-group">
-                <label asp-for="RoomNumber" class="control-label"></label>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="DateOfBirth"
+                               class="form-label">
+                            Date of Birth
+                        </label>
 
-                <input asp-for="RoomNumber"
-                       class="form-control" />
+                        <input asp-for="DateOfBirth"
+                               type="date"
+                               class="form-control" />
 
-                <span asp-validation-for="RoomNumber"
-                      class="text-danger"></span>
-            </div>
+                        <span asp-validation-for="DateOfBirth"
+                              class="text-danger"></span>
+                    </div>
 
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="RoomNumber"
+                               class="form-label">
+                            Room Number
+                        </label>
 
-            <!-- Diagnosis -->
-            <div class="form-group">
-                <label asp-for="Diagnosis" class="control-label"></label>
+                        <input asp-for="RoomNumber"
+                               class="form-control" />
 
-                <textarea asp-for="Diagnosis"
-                          class="form-control"
-                          rows="3"></textarea>
+                        <span asp-validation-for="RoomNumber"
+                              class="text-danger"></span>
+                    </div>
 
-                <span asp-validation-for="Diagnosis"
-                      class="text-danger"></span>
-            </div>
+                </div>
 
+                <hr />
 
-            <!-- Status -->
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
+                <h5 class="mb-3">Medical Information</h5>
 
-                <select asp-for="Status"
-                        asp-items="Html.GetEnumSelectList<PatientStatus>()"
-                        class="form-control">
-                </select>
+                <div class="mb-3">
+                    <label asp-for="Diagnosis"
+                           class="form-label">
+                        Diagnosis
+                    </label>
 
-                <span asp-validation-for="Status"
-                      class="text-danger"></span>
-            </div>
+                    <textarea asp-for="Diagnosis"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Enter diagnosis..."></textarea>
 
+                    <span asp-validation-for="Diagnosis"
+                          class="text-danger"></span>
+                </div>
 
-            <br />
+                <div class="mb-3">
+                    <label asp-for="Status"
+                           class="form-label">
+                        Patient Status
+                    </label>
 
-            <input type="submit"
-                   value="Add Patient"
-                   class="btn btn-primary" />
+                    <select asp-for="Status"
+                            asp-items="Html.GetEnumSelectList<PatientStatus>()"
+                            class="form-select">
+                    </select>
 
-            <a asp-action="Index"
-               class="btn btn-secondary">
-                Cancel
-            </a>
+                    <span asp-validation-for="Status"
+                          class="text-danger"></span>
+                </div>
 
-        </form>
+                <hr />
 
+                <div class="mt-4">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Add Patient
+                    </button>
+
+                    <a href="/UnitSupervisor/Patient"
+                       class="btn btn-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
     </div>
-</div>  
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

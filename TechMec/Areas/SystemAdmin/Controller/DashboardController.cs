@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-
 namespace TechMec.Area.SystemAdmin.Controllers
 {
-    public class DashboardController : Microsoft.AspNetCore.Mvc.Controller
+    [Area("SystemAdmin")]
+    public class DashboardController : Controller
     {
         public IActionResult Index()
         {

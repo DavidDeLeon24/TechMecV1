@@ -1,111 +1,145 @@
-﻿@model TechMec.Models.Handover
+﻿@model TechMec.Area.UnitSupervisor.Controllers.HandoverController.CreateHandoverInput
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewData["Title"] = "Create Handover";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create Handover</h1>
+<div class="container mt-4">
 
-<hr />
+    <h2>Create Patient Handover</h2>
+    <p class="text-muted">
+        Enter the handover information below.
+    </p>
 
-<div class="row">
-    <div class="col-md-6">
+    <hr />
 
-        <form asp-action="Create">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
 
-            <div asp-validation-summary="ModelOnly"
-                 class="text-danger">
-            </div>
+            <form action="/UnitSupervisor/Handover/Create"
+                  method="post">
 
+                @Html.AntiForgeryToken()
 
-            <!-- Patient -->
-            <div class="form-group">
-                <label asp-for="PatientId">Patient</label>
+                <div asp-validation-summary="All"
+                     class="text-danger mb-3"></div>
 
-                <input asp-for="PatientId"
-                       class="form-control" />
+                <h5>Patient Information</h5>
 
-                <span asp-validation-for="PatientId"
-                      class="text-danger">
-                </span>
-            </div>
+                <div class="row">
 
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="PatientId"
+                               class="form-label">
+                            Select Patient
+                        </label>
 
-            <!-- Shift -->
-            <div class="form-group">
-                <label asp-for="ShiftType">Shift</label>
+                        <select asp-for="PatientId"
+                                asp-items="ViewBag.Patients"
+                                class="form-select">
+                            <option value="0">-- Select Patient --</option>
+                        </select>
 
-                <select asp-for="ShiftType"
-                        class="form-control">
+                        <span asp-validation-for="PatientId"
+                              class="text-danger"></span>
+                    </div>
 
-                    <option value="">Select Shift</option>
-                    <option value="Morning">Morning</option>
-                    <option value="Evening">Evening</option>
-                    <option value="Night">Night</option>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ShiftType"
+                               class="form-label">
+                            Select Shift
+                        </label>
 
-                </select>
+                        <select asp-for="ShiftType"
+                                class="form-select">
+                            <option value="">-- Select Shift --</option>
+                            <option value="1">Morning</option>
+                            <option value="2">Afternoon</option>
+                            <option value="3">Night</option>
+                        </select>
 
-                <span asp-validation-for="ShiftType"
-                      class="text-danger">
-                </span>
-            </div>
+                        <span asp-validation-for="ShiftType"
+                              class="text-danger"></span>
+                    </div>
 
+                </div>
 
-            <!-- From Nurse -->
-            <div class="form-group">
-                <label asp-for="FromUserId">From Nurse</label>
+                <hr />
 
-                <input asp-for="FromUserId"
-                       class="form-control" />
+                <h5>Nurse Information</h5>
 
-                <span asp-validation-for="FromUserId"
-                      class="text-danger">
-                </span>
-            </div>
+                <div class="row">
 
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FromNurseName"
+                               class="form-label">
+                            From Nurse
+                        </label>
 
-            <!-- To Nurse -->
-            <div class="form-group">
-                <label asp-for="ToUserId">To Nurse</label>
+                        <input asp-for="FromNurseName"
+                               class="form-control"
+                               placeholder="Enter nurse's full name" />
 
-                <input asp-for="ToUserId"
-                       class="form-control" />
+                        <span asp-validation-for="FromNurseName"
+                              class="text-danger"></span>
+                    </div>
 
-                <span asp-validation-for="ToUserId"
-                      class="text-danger">
-                </span>
-            </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ToNurseName"
+                               class="form-label">
+                            To Nurse
+                        </label>
 
+                        <input asp-for="ToNurseName"
+                               class="form-control"
+                               placeholder="Enter nurse's full name" />
 
-            <!-- Special Instructions -->
-            <div class="form-group">
-                <label asp-for="SpecialInstructions">
-                    Special Instructions
-                </label>
+                        <span asp-validation-for="ToNurseName"
+                              class="text-danger"></span>
+                    </div>
 
-                <textarea asp-for="SpecialInstructions"
-                          class="form-control"
-                          rows="4">
-                </textarea>
+                </div>
 
-                <span asp-validation-for="SpecialInstructions"
-                      class="text-danger">
-                </span>
-            </div>
+                <hr />
 
+                <h5>Additional Information</h5>
 
-            <br />
+                <div class="mb-3">
+                    <label asp-for="SpecialInstructions"
+                           class="form-label">
+                        Special Instructions
+                    </label>
 
-            <input type="submit"
-                   value="Create Handover"
-                   class="btn btn-primary" />
+                    <textarea asp-for="SpecialInstructions"
+                              class="form-control"
+                              rows="5"
+                              placeholder="Enter patient updates or instructions..."></textarea>
 
-            <a asp-action="Index"
-               class="btn btn-secondary">
-                Cancel
-            </a>
+                    <span asp-validation-for="SpecialInstructions"
+                          class="text-danger"></span>
+                </div>
 
-        </form>
+                <hr />
 
+                <button type="submit"
+                        class="btn btn-primary">
+                    Create Handover
+                </button>
+
+                <a href="/UnitSupervisor/Handover"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
     </div>
+
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -2,79 +2,84 @@
 
 @{
     ViewData["Title"] = "Unit Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Unit Details</h1>
+<div class="container mt-4">
 
-<hr />
+    <h2>Unit Details</h2>
 
-<div>
-    <h4>Admitted: @Model.Count()</h4>
-</div>
+    <hr />
 
-<br />
+    <div class="mb-4">
+        <h5>Admitted: @Model.Count()</h5>
+    </div>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">
-        + Add New Patient
-    </a>
-</p>
+    <div class="mb-4">
+        <a href="/UnitSupervisor/Patient/Create"
+           class="btn btn-primary">
+            + Add New Patient
+        </a>
+    </div>
 
-<h3>Patients In This Unit</h3>
+    <h3>Patients In This Unit</h3>
 
-<table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped">
 
-    <thead>
-        <tr>
-            <th>Patient ID</th>
-            <th>Name</th>
-            <th>Room Number</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-
-        @foreach (var item in Model)
-        {
+        <thead>
             <tr>
-
-                <td>
-                    @item.PatientId
-                </td>
-
-                <td>
-                    @item.FirstName @item.LastName
-                </td>
-
-                <td>
-                    @item.RoomNumber
-                </td>
-
-                <td>
-                    <a asp-action="Details"
-                       asp-route-id="@item.PatientId">
-                        Details
-                    </a>
-
-                    |
-
-                    <a asp-action="Edit"
-                       asp-route-id="@item.PatientId">
-                        Edit
-                    </a>
-
-                    |
-
-                    <a asp-action="Delete"
-                       asp-route-id="@item.PatientId">
-                        Delete
-                    </a>
-                </td>
-
+                <th>Patient ID</th>
+                <th>Name</th>
+                <th>Room Number</th>
+                <th>Actions</th>
             </tr>
-        }
+        </thead>
 
-    </tbody>
+        <tbody>
 
-</table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.PatientId
+                    </td>
+
+                    <td>
+                        @item.FirstName @item.LastName
+                    </td>
+
+                    <td>
+                        @item.RoomNumber
+                    </td>
+
+                    <td>
+                        <a href="/UnitSupervisor/Patient/Details/@item.PatientId"
+                           class="btn btn-info btn-sm">
+                            Details
+                        </a>
+
+                        <a href="/UnitSupervisor/Patient/Edit/@item.PatientId"
+                           class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+
+                        <a href="/UnitSupervisor/Patient/Delete/@item.PatientId"
+                           class="btn btn-danger btn-sm">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted">
+            No patients have been added yet.
+        </p>
+    }
+
+</div>

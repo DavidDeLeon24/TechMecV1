@@ -1,5 +1,150 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model TechMec.Models.Patient
+@using TechMec.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
+    ViewData["Title"] = "Edit Patient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+
+    <h2>Edit Patient</h2>
+    <p class="text-muted">
+        Update the patient's information below.
+    </p>
+
+    <hr />
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+            <form action="/UnitSupervisor/Patient/Edit/@Model.PatientId"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="PatientId" />
+
+                <div asp-validation-summary="All"
+                     class="text-danger mb-3"></div>
+
+                <h5 class="mb-3">Personal Information</h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FirstName"
+                               class="form-label">
+                            First Name
+                        </label>
+
+                        <input asp-for="FirstName"
+                               class="form-control" />
+
+                        <span asp-validation-for="FirstName"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LastName"
+                               class="form-label">
+                            Last Name
+                        </label>
+
+                        <input asp-for="LastName"
+                               class="form-control" />
+
+                        <span asp-validation-for="LastName"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="DateOfBirth"
+                               class="form-label">
+                            Date of Birth
+                        </label>
+
+                        <input asp-for="DateOfBirth"
+                               type="date"
+                               class="form-control" />
+
+                        <span asp-validation-for="DateOfBirth"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="RoomNumber"
+                               class="form-label">
+                            Room Number
+                        </label>
+
+                        <input asp-for="RoomNumber"
+                               class="form-control" />
+
+                        <span asp-validation-for="RoomNumber"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <h5 class="mb-3">Medical Information</h5>
+
+                <div class="mb-3">
+                    <label asp-for="Diagnosis"
+                           class="form-label">
+                        Diagnosis
+                    </label>
+
+                    <textarea asp-for="Diagnosis"
+                              class="form-control"
+                              rows="4"></textarea>
+
+                    <span asp-validation-for="Diagnosis"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Status"
+                           class="form-label">
+                        Patient Status
+                    </label>
+
+                    <select asp-for="Status"
+                            asp-items="Html.GetEnumSelectList<PatientStatus>()"
+                            class="form-select">
+                    </select>
+
+                    <span asp-validation-for="Status"
+                          class="text-danger"></span>
+                </div>
+
+                <hr />
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Save Changes
+                </button>
+
+                <a href="/UnitSupervisor/Patient"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

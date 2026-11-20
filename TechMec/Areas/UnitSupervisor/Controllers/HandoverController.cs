@@ -1,13 +1,166 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using TechMec.Data;
+using TechMec.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace TechMec.Area.UnitSupervisor.Controllers
 {
-    public class HandoverController : Microsoft.AspNetCore.Mvc.Controller
+    [Area("UnitSupervisor")]
+    public class HandoverController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public HandoverController(ApplicationDbContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        // Form fields for creating a handover
+        public class CreateHandoverInput
+        {
+            [Range(1, int.MaxValue, ErrorMessage = "Please select a patient.")]
+            public int PatientId { get; set; }
+
+            [Required(ErrorMessage = "Please select a shift.")]
+            public HandoverShift? ShiftType { get; set; }
+
+            [Required(ErrorMessage = "Enter the From Nurse name.")]
+            public string FromNurseName { get; set; } = "";
+
+            [Required(ErrorMessage = "Enter the To Nurse name.")]
+            public string ToNurseName { get; set; } = "";
+
+            [StringLength(2000)]
+            public string? SpecialInstructions { get; set; }
+        }
+
+        private async Task LoadPatients()
+        {
+            var patients = await _context.Patients
+                .OrderBy(p => p.FirstName)
+                .Select(p => new
+                {
+                    p.PatientId,
+                    Name = p.FirstName + " " + p.LastName
+                })
+                .ToListAsync();
+
+            ViewBag.Patients = new SelectList(
+                patients,
+                "PatientId",
+                "Name"
+            );
+        }
+
+        // Display handovers
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var handovers = await _context.Handovers
+                .Include(h => h.Patient)
+                .Include(h => h.FromUser)
+                .Include(h => h.ToUser)
+                .ToListAsync();
+
+            return View(handovers);
+        }
+
+        // Open Create page
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            await LoadPatients();
+            return View(new CreateHandoverInput());
+        }
+
+        // Save handover
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateHandoverInput input)
+        {
+            if (ModelState.IsValid)
+            {
+                bool patientExists = await _context.Patients
+                    .AnyAsync(p => p.PatientId == input.PatientId);
+
+                if (!patientExists)
+                {
+                    ModelState.AddModelError(
+                        "PatientId",
+                        "Please select a valid patient."
+                    );
+                }
+
+                string fromName = input.FromNurseName.Trim();
+                string toName = input.ToNurseName.Trim();
+
+                var fromMatches = await _context.Users
+                    .Where(u => u.FullName == fromName)
+                    .Take(2)
+                    .ToListAsync();
+
+                var toMatches = await _context.Users
+                    .Where(u => u.FullName == toName)
+                    .Take(2)
+                    .ToListAsync();
+
+                if (fromMatches.Count != 1)
+                {
+                    ModelState.AddModelError(
+                        "FromNurseName",
+                        fromMatches.Count == 0
+                            ? "From Nurse was not found. Enter a registered user's full name."
+                            : "Multiple users have this name. Ask an administrator to resolve the duplicate."
+                    );
+                }
+
+                if (toMatches.Count != 1)
+                {
+                    ModelState.AddModelError(
+                        "ToNurseName",
+                        toMatches.Count == 0
+                            ? "To Nurse was not found. Enter a registered user's full name."
+                            : "Multiple users have this name. Ask an administrator to resolve the duplicate."
+                    );
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var handover = new Handover
+                    {
+                        PatientId = input.PatientId,
+                        ShiftType = input.ShiftType!.Value,
+                        FromUserId = fromMatches[0].Id,
+                        ToUserId = toMatches[0].Id,
+                        SpecialInstructions = input.SpecialInstructions
+                    };
+
+                    try
+                    {
+                        _context.Handovers.Add(handover);
+                        await _context.SaveChangesAsync();
+
+                        TempData["SuccessMessage"] =
+                            "Handover created successfully!";
+
+                        return RedirectToAction("Index");
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        ModelState.AddModelError(
+                            "",
+                            "Unable to save handover: " +
+                            (ex.InnerException?.Message ?? ex.Message)
+                        );
+                    }
+                }
+            }
+
+            await LoadPatients();
+            return View(input);
         }
     }
 }

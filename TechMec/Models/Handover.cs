@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace TechMec.Models
 {
@@ -31,13 +33,19 @@ namespace TechMec.Models
 
         // Acknowledgment
         public bool IsAcknowledged { get; set; } = false;
+
         public DateTime? AcknowledgedAt { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // Navigation
+        // Navigation Properties
+        [ValidateNever]
         public Patient Patient { get; set; } = null!;
+
+        [ValidateNever]
         public ApplicationUser FromUser { get; set; } = null!;
+
+        [ValidateNever]
         public ApplicationUser ToUser { get; set; } = null!;
     }
 }
