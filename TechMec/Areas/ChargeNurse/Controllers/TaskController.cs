@@ -1,12 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TechMec.Data;
 
 namespace TechMec.Area.ChargeNurse.Controllers
 {
-    public class TaskController : Microsoft.AspNetCore.Mvc.Controller
+    [Area("ChargeNurse")] 
+    public class TaskController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public TaskController(ApplicationDbContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var tasks = await _context.TaskItems.ToListAsync();
+            return View(tasks);
         }
     }
 }

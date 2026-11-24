@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TechMec.styles.css" asp-append-version="true" />
+    <!-- Include FontAwesome for your icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
     <header>
@@ -44,7 +46,6 @@
                         }
                         else if (User.IsInRole("UnitSupervisor"))
                         {
-                            <!-- REPLACED "HOME" WITH ACTUAL LINKS -->
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/UnitSupervisor/Dashboard">Unit Supervisor</a>
                             </li>
@@ -57,8 +58,18 @@
                         }
                         else if (User.IsInRole("ChargeNurse"))
                         {
+                            <!-- CHARGE NURSE NAV LINKS (NO "HOME") -->
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="ChargeNurse" asp-controller="Dashboard" asp-action="Index">Charge Nurse</a>
+                                <a class="nav-link text-dark" href="/ChargeNurse/Dashboard">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/ChargeNurse/Handover">Handovers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/ChargeNurse/Patient">Patients</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/ChargeNurse/Task">Tasks</a>
                             </li>
                         }
                         else
@@ -97,7 +108,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - TechMec - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - TechMec
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
