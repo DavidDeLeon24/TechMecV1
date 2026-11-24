@@ -2,57 +2,47 @@
 
 @{
     ViewData["Title"] = "Handovers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Handovers</h1>
+<div class="container mt-4">
+    <h1>Handovers</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">
-        + Create New Handover
-    </a>
-</p>
+    <p>
+        <a href="/UnitSupervisor/Handover/Create" class="btn btn-primary">+ Create New Handover</a>
+    </p>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Patient</th>
-            <th>Shift</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
-                <td>@item.PatientId</td>
-                <td>@item.ShiftType</td>
-                <td>@item.FromUserId</td>
-                <td>@item.ToUserId</td>
-
-                <td>
-                    <a asp-action="Details"
-                       asp-route-id="@item.HandoverId">
-                        Details
-                    </a>
-
-                    |
-
-                    <a asp-action="Edit"
-                       asp-route-id="@item.HandoverId">
-                        Edit
-                    </a>
-
-                    |
-
-                    <a asp-action="Delete"
-                       asp-route-id="@item.HandoverId">
-                        Delete
-                    </a>
-                </td>
+                <th>Patient</th>
+                <th>Shift</th>
+                <th>From Nurse</th>
+                <th>To Nurse</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="5" class="text-center py-4">No handovers found.</td>
+                </tr>
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(item.Patient != null ? item.Patient.FirstName + " " + item.Patient.LastName : "N/A")</td>
+                    <td>@item.ShiftType</td>
+                    <td>@(item.FromUser != null ? item.FromUser.FullName : "N/A")</td>
+                    <td>@(item.ToUser != null ? item.ToUser.FullName : "N/A")</td>
+                    <td>
+                        <a href="/UnitSupervisor/Handover/Details/@item.HandoverId" class="btn btn-sm btn-outline-info">Details</a>
+                        <a href="/UnitSupervisor/Handover/Edit/@item.HandoverId" class="btn btn-sm btn-outline-warning">Edit</a>
+                        <a href="/UnitSupervisor/Handover/Delete/@item.HandoverId" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

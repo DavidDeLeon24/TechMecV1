@@ -2,14 +2,15 @@
 
 @{
     ViewData["Title"] = "Create Note";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Add Patient Note</h1>
-
 <hr />
 
 <div class="row">
     <div class="col-md-6">
+        <!-- FIXED FORM ROUTING -->
         <form asp-area="ChargeNurse" asp-controller="Notes" asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

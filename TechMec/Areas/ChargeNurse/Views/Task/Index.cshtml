@@ -2,14 +2,23 @@
 
 @{
     ViewData["Title"] = "Tasks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Patient Tasks</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Patient Tasks</h1>
+    <a href="/ChargeNurse/Task/Create" class="btn btn-primary">+ Create New Task</a>
+</div>
 
-<hr />
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <table class="table table-bordered table-striped">
-
     <thead>
         <tr>
             <th>Handover ID</th>
@@ -19,36 +28,42 @@
             <th>Actions</th>
         </tr>
     </thead>
-
     <tbody>
-        @foreach (var item in Model)
+        @if (!Model.Any())
         {
             <tr>
-                <td>@item.HandoverId</td>
-
-                <td>@item.Description</td>
-
-                <td>@item.Priority</td>
-
-                <td>
-                    @if (item.IsCompleted)
-                    {
-                        <span>Completed</span>
-                    }
-                    else
-                    {
-                        <span>Pending</span>
-                    }
-                </td>
-
-                <td>
-                    <a asp-action="Edit"
-                       asp-route-id="@item.TaskId">
-                        Edit
-                    </a>
+                <td colspan="5" class="text-center text-muted py-4">
+                    No tasks have been assigned yet. Click "+ Create New Task" to add one.
                 </td>
             </tr>
         }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.HandoverId</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <span class="badge @(item.Priority == "High" ? "bg-danger" : item.Priority == "Medium" ? "bg-warning text-dark" : "bg-info")">
+                            @item.Priority
+                        </span>
+                    </td>
+                    <td>
+                        @if (item.IsCompleted)
+                        {
+                            <span class="badge bg-success">Completed</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Pending</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/ChargeNurse/Task/Edit/@item.TaskId" class="btn btn-sm btn-outline-primary">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
-
 </table>

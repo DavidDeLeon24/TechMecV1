@@ -1,61 +1,33 @@
 ﻿@model TechMec.Models.Handover
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Handover";
 }
 
-<h1>Edit Handover</h1>
+<div class="container mt-4">
+    <h2>Edit Handover</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-area="UnitSupervisor" asp-controller="Handover" asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="HandoverId" />
 
-<hr />
+                <div class="form-group mb-3">
+                    <label asp-for="ShiftType" class="control-label"></label>
+                    <select asp-for="ShiftType" class="form-control" asp-items="Html.GetEnumSelectList<TechMec.Models.HandoverShift>()"></select>
+                    <span asp-validation-for="ShiftType" class="text-danger"></span>
+                </div>
 
-<div class="row">
-    <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <label asp-for="SpecialInstructions" class="control-label"></label>
+                    <textarea asp-for="SpecialInstructions" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="SpecialInstructions" class="text-danger"></span>
+                </div>
 
-        <form asp-action="Edit" method="post">
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <input type="hidden" asp-for="HandoverId" />
-            <input type="hidden" asp-for="PatientId" />
-
-            <div class="form-group">
-                <label asp-for="ShiftType" class="control-label"></label>
-                <input asp-for="ShiftType" class="form-control" />
-                <span asp-validation-for="ShiftType" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="FromUserId" class="control-label"></label>
-                <input asp-for="FromUserId" class="form-control" />
-                <span asp-validation-for="FromUserId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ToUserId" class="control-label"></label>
-                <input asp-for="ToUserId" class="form-control" />
-                <span asp-validation-for="ToUserId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="SpecialInstructions" class="control-label"></label>
-                <input asp-for="SpecialInstructions" class="form-control" />
-                <span asp-validation-for="SpecialInstructions" class="text-danger"></span>
-            </div>
-
-            <br />
-
-            <div class="form-group">
-                <input type="submit"
-                       value="Save Changes"
-                       class="btn btn-primary" />
-
-                <a asp-action="Index"
-                   class="btn btn-secondary">
-                    Cancel
-                </a>
-            </div>
-
-        </form>
-
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="/UnitSupervisor/Handover" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
     </div>
 </div>

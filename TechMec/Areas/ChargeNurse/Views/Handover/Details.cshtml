@@ -2,61 +2,95 @@
 
 @{
     ViewData["Title"] = "Handover Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Handover Details</h1>
+<div class="container mt-4">
+    <h1>Handover Details</h1>
+    <hr />
 
-<hr />
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Patient</dt>
+                <dd class="col-sm-9">@(Model.Patient != null ? Model.Patient.FirstName + " " + Model.Patient.LastName : "N/A")</dd>
 
-<dl class="row">
+                <dt class="col-sm-3">Shift</dt>
+                <dd class="col-sm-9">@Model.ShiftType</dd>
 
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.PatientId)
-    </dt>
+                <dt class="col-sm-3">From Nurse</dt>
+                <dd class="col-sm-9">@(Model.FromUser != null ? Model.FromUser.FullName : "N/A")</dd>
 
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.PatientId)
-    </dd>
+                <dt class="col-sm-3">To Nurse</dt>
+                <dd class="col-sm-9">@(Model.ToUser != null ? Model.ToUser.FullName : "N/A")</dd>
 
+                <dt class="col-sm-3">Special Instructions</dt>
+                <dd class="col-sm-9">@Model.SpecialInstructions</dd>
+            </dl>
+        </div>
+    </div>
 
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.ShiftType)
-    </dt>
+    <!-- NEW SECTION: Associated Tasks -->
+    <h4>Associated Tasks</h4>
 
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.ShiftType)
-    </dd>
+    @{
+        var tasks = ViewBag.Tasks as List<TechMec.Models.TaskItem>;
+    }
 
+    @if (tasks == null || !tasks.Any())
+    {
+        <p class="text-muted">No tasks have been assigned to this handover yet.</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped mt-3">
+            <thead class="table-light">
+                <tr>
+                    <th>Task Description</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in tasks)
+                {
+                    <tr>
+                        <td>@task.Description</td>
+                        <td>
+                            <span class="badge @(task.Priority == "High" ? "bg-danger" : task.Priority == "Medium" ? "bg-warning text-dark" : "bg-info")">
+                                @task.Priority
+                            </span>
+                        </td>
+                        <td>
+                            @if (task.IsCompleted)
+                            {
+                                <span class="badge bg-success">Completed</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Pending</span>
+                            }
+                        </td>
+                        <td>
+                            <!-- Quick Complete Button -->
+                            @if (!task.IsCompleted)
+                            {
+                                <form asp-area="ChargeNurse" asp-controller="Task" asp-action="Edit" asp-route-id="@task.TaskId" method="post" class="d-inline">
+                                    <input type="hidden" name="TaskId" value="@task.TaskId" />
+                                    <input type="hidden" name="HandoverId" value="@task.HandoverId" />
+                                    <input type="hidden" name="Description" value="@task.Description" />
+                                    <input type="hidden" name="Priority" value="@task.Priority" />
+                                    <input type="hidden" name="IsCompleted" value="true" />
+                                    <button type="submit" class="btn btn-sm btn-success">Mark Completed</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.FromUserId)
-    </dt>
-
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.FromUserId)
-    </dd>
-
-
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.ToUserId)
-    </dt>
-
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.ToUserId)
-    </dd>
-
-
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.SpecialInstructions)
-    </dt>
-
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.SpecialInstructions)
-    </dd>
-
-</dl>
-
-<a asp-action="Index"
-   class="btn btn-secondary">
-    Back to Handovers
-</a>
+    <a href="/ChargeNurse/Handover" class="btn btn-secondary mt-3">Back to Handovers</a>
+</div>
