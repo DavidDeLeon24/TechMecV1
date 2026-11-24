@@ -12,7 +12,6 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <!-- FIXED: Logo goes to Dashboard Controller -->
                 @if (User.IsInRole("SystemAdmin"))
                 {
                     <a class="navbar-brand" asp-area="SystemAdmin" asp-controller="Dashboard" asp-action="Index">TechMec</a>
@@ -40,26 +39,26 @@
                         @if (User.IsInRole("SystemAdmin"))
                         {
                             <li class="nav-item">
-                                <!-- FIXED: Manage Users link explicitly targets UserController -->
                                 <a class="nav-link text-dark" asp-area="SystemAdmin" asp-controller="User" asp-action="Index">Manage Users</a>
                             </li>
                         }
                         else if (User.IsInRole("UnitSupervisor"))
                         {
+                            <!-- REPLACED "HOME" WITH ACTUAL LINKS -->
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="UnitSupervisor" asp-controller="Dashboard" asp-action="Index">Unit Supervisor</a>
+                                <a class="nav-link text-dark" href="/UnitSupervisor/Dashboard">Unit Supervisor</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-dark" href="/UnitSupervisor/Handover">Handovers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/UnitSupervisor/Patient">Patients</a>
                             </li>
                         }
                         else if (User.IsInRole("ChargeNurse"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="ChargeNurse" asp-controller="Dashboard" asp-action="Index">Charge Nurse</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                         }
                         else
@@ -85,12 +84,6 @@
                                 </form>
                             </li>
                         }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                        }
                     </ul>
                 </div>
             </div>
@@ -104,11 +97,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - TechMec
-            @if (!User.IsInRole("SystemAdmin"))
-            {
-                <span> - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></span>
-            }
+            &copy; 2026 - TechMec - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

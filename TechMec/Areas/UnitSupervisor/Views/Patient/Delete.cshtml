@@ -62,8 +62,8 @@
 
             <hr />
 
-            <form action="/UnitSupervisor/Patient/Delete/@Model.PatientId"
-                  method="post">
+            <!-- FIXED FORM ROUTING -->
+            <form asp-area="UnitSupervisor" asp-controller="Patient" asp-action="Delete" asp-route-id="@Model.PatientId" method="post">
 
                 @Html.AntiForgeryToken()
 

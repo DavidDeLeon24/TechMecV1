@@ -19,8 +19,8 @@
     <div class="card shadow-sm">
         <div class="card-body p-4">
 
-            <form action="/UnitSupervisor/Patient/Create"
-                  method="post">
+            <!-- FIXED FORM ROUTING -->
+            <form asp-area="UnitSupervisor" asp-controller="Patient" asp-action="Create" method="post">
 
                 @Html.AntiForgeryToken()
 
