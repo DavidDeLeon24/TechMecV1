@@ -5,7 +5,7 @@ namespace TechMec.ViewModels
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
+        [Display(Name = "Employee ID")] // Changed from Email to Employee ID
         public string Email { get; set; }
 
         [Required]

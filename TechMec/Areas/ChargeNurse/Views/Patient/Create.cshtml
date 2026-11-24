@@ -1,0 +1,91 @@
+﻿@model TechMec.Models.Patient
+@{
+    ViewData["Title"] = "Admit New Patient";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3><i class="fa-solid fa-bed-pulse text-primary me-2"></i>Admit New Patient</h3>
+    <a href="/ChargeNurse/Patient/Index" class="btn btn-outline-secondary">Back to List</a>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <form asp-action="Create" method="post">
+
+                    <!-- FIX: This generates the hidden security token to prevent HTTP 400 -->
+                    @Html.AntiForgeryToken()
+
+                    <!-- First Name -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">First Name</label>
+                        <input asp-for="FirstName" class="form-control" placeholder="Enter first name" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Last Name</label>
+                        <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Date of Birth</label>
+                        <input asp-for="DateOfBirth" type="date" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+
+                    <!-- Room Number -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Room Number</label>
+                        <input asp-for="RoomNumber" class="form-control" placeholder="e.g., 101" />
+                        <span asp-validation-for="RoomNumber" class="text-danger"></span>
+                    </div>
+
+                    <!-- Diagnosis -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Initial Diagnosis</label>
+                        <textarea asp-for="Diagnosis" class="form-control" rows="2" placeholder="Enter initial diagnosis (optional)"></textarea>
+                        <span asp-validation-for="Diagnosis" class="text-danger"></span>
+                    </div>
+
+                    <!-- Patient Status (Fixed Dropdown) -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Patient Status</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="1">Stable</option>
+                            <option value="2">Observation</option>
+                            <option value="3">Critical</option>
+                            <option value="4">Discharged</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                        <i class="fa-solid fa-plus me-2"></i>Admit Patient
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Helpful Context Panel for the Nurse -->
+    <div class="col-md-4 col-lg-6 d-none d-md-block">
+        <div class="p-4 bg-light rounded border">
+            <h5 class="fw-bold text-secondary mb-3"><i class="fa-solid fa-circle-info me-2"></i>Clinical Reminder</h5>
+            <ul class="text-muted small">
+                <li class="mb-2">Ensure the patient's room number is accurate for medication delivery.</li>
+                <li class="mb-2">Set the status to <strong>Observation</strong> if the patient requires frequent monitoring.</li>
+                <li>Once admitted, the patient will immediately appear in the Handover and Medication Task dropdowns.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Include validation scripts so the form checks for empty fields before submitting -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

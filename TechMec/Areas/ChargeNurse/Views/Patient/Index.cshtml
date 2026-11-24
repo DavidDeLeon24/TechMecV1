@@ -1,0 +1,42 @@
+﻿@model IEnumerable<TechMec.Models.Patient>
+@{
+    ViewData["Title"] = "Patient List";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3><i class="fa-solid fa-users text-primary me-2"></i>Admitted Patients</h3>
+    <a href="/ChargeNurse/Patient/Create" class="btn btn-primary">Admit New Patient</a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Room</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FirstName @item.LastName</td>
+                        <td>@item.RoomNumber</td>
+                        <td>
+                            <span class="badge @(item.Status == TechMec.Models.PatientStatus.Critical ? "bg-danger" : "bg-info text-dark")">
+                                @item.Status
+                            </span>
+                        </td>
+                        <td>
+                            <a href="/ChargeNurse/Patient/Edit/@item.PatientId" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="/ChargeNurse/Patient/Delete/@item.PatientId" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

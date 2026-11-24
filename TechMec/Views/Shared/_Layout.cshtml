@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TechMec</title>
-    <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TechMec.styles.css" asp-append-version="true" />
@@ -13,20 +12,67 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TechMec</a>
+                <!-- FIXED: Logo goes to Dashboard Controller -->
+                @if (User.IsInRole("SystemAdmin"))
+                {
+                    <a class="navbar-brand" asp-area="SystemAdmin" asp-controller="Dashboard" asp-action="Index">TechMec</a>
+                }
+                else if (User.IsInRole("UnitSupervisor"))
+                {
+                    <a class="navbar-brand" asp-area="UnitSupervisor" asp-controller="Dashboard" asp-action="Index">TechMec</a>
+                }
+                else if (User.IsInRole("ChargeNurse"))
+                {
+                    <a class="navbar-brand" asp-area="ChargeNurse" asp-controller="Dashboard" asp-action="Index">TechMec</a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TechMec</a>
+                }
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+                        @if (User.IsInRole("SystemAdmin"))
+                        {
+                            <li class="nav-item">
+                                <!-- FIXED: Manage Users link explicitly targets UserController -->
+                                <a class="nav-link text-dark" asp-area="SystemAdmin" asp-controller="User" asp-action="Index">Manage Users</a>
+                            </li>
+                        }
+                        else if (User.IsInRole("UnitSupervisor"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="UnitSupervisor" asp-controller="Dashboard" asp-action="Index">Unit Supervisor</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                        }
+                        else if (User.IsInRole("ChargeNurse"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="ChargeNurse" asp-controller="Dashboard" asp-action="Index">Charge Nurse</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        }
                     </ul>
+
                     <ul class="navbar-nav">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
@@ -34,7 +80,7 @@
                                 <span class="nav-link text-dark">Hello, @User.Identity.Name</span>
                             </li>
                             <li class="nav-item">
-                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                                     <button type="submit" class="btn btn-link nav-link text-dark">Logout</button>
                                 </form>
                             </li>
@@ -42,7 +88,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                             </li>
                         }
                     </ul>
@@ -58,7 +104,11 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - TechMec - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - TechMec
+            @if (!User.IsInRole("SystemAdmin"))
+            {
+                <span> - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></span>
+            }
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

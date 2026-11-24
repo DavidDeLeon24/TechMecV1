@@ -47,7 +47,15 @@ namespace TechMec.Controllers
                 user, model.Password, model.RememberMe, lockoutOnFailure: true);
 
             if (result.Succeeded)
-                return RedirectToAction("Dashboard", "Home"); // Dashboard
+            {
+                if (await _userManager.IsInRoleAsync(user, "SystemAdmin"))
+                {
+                    return RedirectToAction("Index", "Dashboard", new { area = "SystemAdmin" });
+                }
+
+                // Default redirect for all other roles (Nurses, etc.)
+                return RedirectToAction("Dashboard", "Home");
+            }
 
             if (result.IsLockedOut)
                 ModelState.AddModelError("", "Account locked. Try again in 15 minutes.");
@@ -58,7 +66,7 @@ namespace TechMec.Controllers
         }
 
         [HttpPost]
-        [Authorize] 
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {

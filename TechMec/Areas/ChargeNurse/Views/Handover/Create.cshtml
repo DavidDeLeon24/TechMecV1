@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Create Handover";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3><i class="fa-solid fa-file-medical text-success me-2"></i>Create New Handover</h3>
+    <a href="/ChargeNurse/Handover/Index" class="btn btn-outline-secondary">Back to Handovers</a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Patient</label>
+                        <select class="form-select" name="patientId" asp-items="ViewBag.PatientId">
+                            <option selected disabled>Select a patient...</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Receiving Nurse</label>
+                        <select class="form-select" name="toUserId" asp-items="ViewBag.ToUserId">
+                            <option selected disabled>Select incoming nurse...</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Shift Type</label>
+                        <select class="form-select" name="shiftType">
+                            <option value="Morning">Morning</option>
+                            <option value="Evening">Evening</option>
+                            <option value="Night">Night</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Special Instructions (Clinical Notes)</label>
+                        <textarea class="form-control" name="specialInstructions" rows="4" placeholder="Enter any critical notes for the incoming nurse..."></textarea>
+                    </div>
+
+                    <hr />
+                    <button type="submit" class="btn btn-success px-4"><i class="fa-solid fa-paper-plane me-2"></i>Submit Handover</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

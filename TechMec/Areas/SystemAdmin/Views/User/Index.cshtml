@@ -1,41 +1,65 @@
-﻿@model IEnumerable<TechMec.Models.ApplicationUser>
+﻿@model IEnumerable<(TechMec.Models.ApplicationUser User, string Role)>
 
 @{
     ViewData["Title"] = "Manage Users";
 }
 
-<h1>Manage Users</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Manage Users</h2>
+        <a asp-action="Create" class="btn btn-success">
+            + Create New Nurse
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">
-        Create New User
-    </a>
-</p>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>FullName</th>
-            <th>Department</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.FullName</td>
-                <td>@item.Department</td>
-
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Full Name</th>
+                        <th>Department</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.User.UserName</td>
+                            <td>@item.User.FullName</td>
+                            <td>@(item.User.Department ?? "-")</td>
+                            <td><span class="badge bg-secondary">@item.Role</span></td>
+                            <td>
+                                @if (item.User.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Deactivated</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.User.Id" class="btn btn-sm btn-warning">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.User.Id" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

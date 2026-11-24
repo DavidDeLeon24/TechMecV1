@@ -41,18 +41,40 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// SEEDING DATA
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    string[] roles = {"ChargeNurse", "UnitSupervisor", "Admin" };
+    string[] roles = { "SystemAdmin", "UnitSupervisor", "ChargeNurse" };
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
             await roleManager.CreateAsync(new IdentityRole(role));
     }
 
+    // Seed Admin
+    var adminEmail = "admin@techmec.com";
+    if (await userManager.FindByEmailAsync(adminEmail) == null)
+    {
+        var adminUser = new ApplicationUser
+        {
+            UserName = "admin01",
+            Email = adminEmail,
+            FullName = "System Administrator",
+            IsActive = true,
+            EmailConfirmed = true
+        };
+
+        var adminResult = await userManager.CreateAsync(adminUser, "Admin123!");
+        if (adminResult.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "SystemAdmin");
+        }
+    }
+
+    // Seed Nurse
     var testEmail = "nurse@techmec.com";
     if (await userManager.FindByEmailAsync(testEmail) == null)
     {
@@ -60,6 +82,8 @@ using (var scope = app.Services.CreateScope())
         {
             UserName = testEmail,
             Email = testEmail,
+            FullName = "Test Charge Nurse",
+            IsActive = true,
             EmailConfirmed = true
         };
         var result = await userManager.CreateAsync(testUser, "Nurse123!");
@@ -79,14 +103,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization();
 
-
+// 1. Area Route (Standard ASP.NET Core pattern)
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+// 2. Default Route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");

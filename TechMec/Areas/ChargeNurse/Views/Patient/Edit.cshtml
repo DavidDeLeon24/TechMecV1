@@ -1,0 +1,49 @@
+﻿@model TechMec.Models.Patient
+@{
+    ViewData["Title"] = "Edit Patient";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3><i class="fa-solid fa-pen-to-square text-primary me-2"></i>Edit Patient: @Model.FirstName @Model.LastName</h3>
+    <a href="/ChargeNurse/Patient/Index" class="btn btn-outline-secondary">Back to List</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <form asp-action="Edit" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="PatientId" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">First Name</label>
+                        <input asp-for="FirstName" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Last Name</label>
+                        <input asp-for="LastName" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Room Number</label>
+                        <input asp-for="RoomNumber" class="form-control" />
+                    </div>
+
+                    <!-- The crucial part: Updating Status to Discharged -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Patient Status</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="1">Stable</option>
+                            <option value="2">Observation</option>
+                            <option value="3">Critical</option>
+                            <option value="4">Discharged</option>
+                        </select>
+                        <small class="text-muted">Set to "Discharged" when the patient leaves.</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
